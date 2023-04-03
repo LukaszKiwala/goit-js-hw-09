@@ -1,1 +1,46 @@
+import '../css/common.css';
+
+const bodyEl = document.querySelector('body');
+const startEl = document.querySelector('button[data-start]');
+const stopEl = document.querySelector('button[data-stop]');
+console.log("test")
+console.log(startEl, stopEl, bodyEl)
+stopEl.disabled = true;
+let intervalID = null;
+
+const randomBodyColorGenerator = {
+
+  getRandomHexColor() {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  },
+
+  interval() {
+    intervalID = setInterval(() => {
+      changeBgColorRandom();
+    }, 1000);
+    stopEl.disabled = false;
+  },
+
+  start() {
+    startEl.addEventListener('click', () => {
+      this.interval();
+      startEl.disabled = true;
+      stopEl.disabled = false;
+    });
+    stopEl.addEventListener('click', this.stop);
+  },
+
+  stop() {
+    clearInterval(intervalID);
+    stopEl.disabled = true;
+    startEl.disabled = false;
+  },
+};
+
+function changeBgColorRandom() {
+  bodyEl.style.backgroundColor = `${randomBodyColorGenerator.getRandomHexColor()}`;
+}
+
+randomBodyColorGenerator.start();
+
 
